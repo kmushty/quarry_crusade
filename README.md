@@ -5,7 +5,7 @@ Let's throw some F bombs on MM/OPP
 
 The initial architecture idea:
 
-![Initial Idea](quarry_crusade_initial_arch.png)
+![Initial Idea](images/quarry_crusade_initial_arch.png)
 ## Overview of Components and Responsibilities:
 
 ### Frontend:
