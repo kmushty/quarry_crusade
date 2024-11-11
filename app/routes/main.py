@@ -1,0 +1,8 @@
+# app/routes/main.py
+from flask import Blueprint
+
+main = Blueprint("main", __name__)
+
+@main.route("/")
+def index():
+    return "Hello from the blueprint!"
