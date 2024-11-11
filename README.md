@@ -22,3 +22,7 @@ The initial architecture idea:
 **RTI Connext DDS**: Communication between the server and autonomous trucks, sending route assignments and receiving vehicle status updates.
 
 **WebSockets**: Used for bidirectional communication between the Flask server and the React frontend to push updates and receive user interactions.
+
+## Pictures of the current state
+
+![Current State](images/initial_test.png)
