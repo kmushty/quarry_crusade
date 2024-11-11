@@ -1,0 +1,10 @@
+# Node.js dependencies
+frontend/node_modules/
+
+# Build output
+frontend/build/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
