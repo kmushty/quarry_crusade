@@ -78,7 +78,7 @@ def handle_hxgn_event(event: HxgnEvent) -> None:
 def init_dds():
     """Initialize DDS handler and subscribers"""
      # Get absolute path to QOS file
-    xml_path = str(Path(__file__).parent.absolute() / "app" / "dds" / "USER_QOS_PROFILES.xml")
+    xml_path = str(Path(__file__).parent.absolute() / "app" / "dds" / "idl" / "USER_QOS_PROFILES.xml")
     
     # Verify file exists
     if not Path(xml_path).exists():

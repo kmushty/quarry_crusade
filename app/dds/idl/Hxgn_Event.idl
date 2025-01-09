@@ -4,13 +4,7 @@ module dds
 {
     struct Hxgn_Event
     {
-        Structs::Header          header;
-        long                     equipmentId;  //@key
+        long                     equipmentId;
         long                     assignmentId;
-        string<25>               equipmentTag;
-        Structs::GeoPosition     position;
-        string<10>               code;
-        string<100>              message;
-        Structs::EventLevels     level;
     };
 };
