@@ -102,6 +102,10 @@ Quarry Crusade is tailored for mining operations, providing tools for:
 - **Asset Management**: Track and manage mining equipment.
 - **Routing**: Optimize routes for mining trucks
 
+## Pictures of the current setup
+
+![Current Setup](images/current_state.png)
+
 ## Future Work
 
 - **Traffic Management**: Manage traffic flow and optimize truck movements. This is mostly used for specific traffic zones and refueling/service stations.
