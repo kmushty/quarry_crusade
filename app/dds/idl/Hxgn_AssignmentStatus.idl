@@ -1,0 +1,12 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_AssignmentStatus
+    {
+        Structs::Header             header;
+        long                        equipmentId;  //@key
+        long                        assignmentId;
+        Structs::AssignmentStatus   status;
+    };
+};

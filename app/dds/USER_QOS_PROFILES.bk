@@ -1,0 +1,85 @@
+<dds xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://community.rti.com/schema/6.1.2/rti_dds_qos_profiles.xsd" version="6.1.2">
+  <qos_library name="MissionManager_QOS_Library">
+
+    <qos_profile name="Periodic" base_name="BuiltinQosLibExp::Generic.BestEffort">
+        <datareader_qos>
+        <durability>
+          <kind>VOLATILE_DURABILITY_QOS</kind>
+        </durability>
+      </datareader_qos>
+
+      <datawriter_qos>
+        <durability>
+          <kind>VOLATILE_DURABILITY_QOS</kind>
+        </durability>
+      </datawriter_qos>
+    </qos_profile>
+
+    <qos_profile name="Trigger" base_name="BuiltinQosLibExp::Generic.KeepLastReliable.TransientLocal">
+    </qos_profile>
+
+    <qos_profile name="Event" base_name="BuiltinQosLibExp::Pattern.Event">
+      <base_name>
+        <element>BuiltinQosSnippetLib::QosPolicy.Durability.TransientLocal</element>
+      </base_name>
+    </qos_profile>
+
+    <qos_profile name="LargeEvent" base_name="BuiltinQosLibExp::Pattern.Event">
+      <datawriter_qos>
+        <resource_limits>
+          <max_samples>32</max_samples>
+          <max_samples_per_instance>1</max_samples_per_instance>
+          <initial_samples>1</initial_samples>
+        </resource_limits>
+        <property>
+          <value>
+            <element>
+              <name>dds.data_writer.history.memory_manager.fast_pool.pool_buffer_max_size</name>
+              <value>0</value>
+            </element>
+          </value>
+        </property>
+
+      </datawriter_qos>
+    </qos_profile>
+
+    <qos_profile base_name="BuiltinQosLibExp::Generic.KeepLastReliable.LargeData" name="FileTransfer">
+      <participant_qos>
+        
+        <resource_limits>
+          <type_code_max_serialized_length>8192</type_code_max_serialized_length>
+          <type_object_max_serialized_length>33554432</type_object_max_serialized_length>
+        </resource_limits>
+
+      </participant_qos>
+    </qos_profile>
+
+  </qos_library>
+
+  <!-- Domain Library to define topics -->
+  <domain_library name="QuarryCrusadeDomains">
+      <domain name="MainDomain" domain_id="7">
+          <register_type name="Hxgn_Event" type_ref="Hxgn_Event"/>
+          <topic name="Events" register_type_ref="Hxgn_Event"/>
+      </domain>
+  </domain_library>
+
+  <!-- Domain Participant Library required by RTI Connector -->
+  <domain_participant_library name="QuarryCrusadeParticipants">
+      <domain_participant name="MainParticipant" domain_id="7">
+          <!-- Publisher Configuration -->
+          <publisher name="MainPublisher">
+              <data_writer name="Hxgn_Event" topic_ref="Events">
+                  <datawriter_qos base_name="MissionManager_QOS_Library::Event"/>
+              </data_writer>
+          </publisher>
+          <!-- Subscriber configuration -->
+          <subscriber name="MainSubscriber">
+              <data_reader name="Hxgn_Event" topic_ref="Events">
+                  <datareader_qos base_name="MissionManager_QOS_Library::Event"/>
+              </data_reader>
+          </subscriber>
+      </domain_participant>
+  </domain_participant_library>
+
+</dds>

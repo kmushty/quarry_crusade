@@ -1,0 +1,11 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_TrafficReleaseResponse
+    {
+        long       equipmentId;  //@key
+        long       requestId;
+        string<50> authorizationDateTime;
+    };
+};

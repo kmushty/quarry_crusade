@@ -1,0 +1,637 @@
+#ifndef HXGN_STRUCTS
+#define HXGN_STRUCTS
+
+module Structs
+{
+    enum AssignmentTypes
+    {
+        ASSIGNMENT_INVALID     = 0,
+        ASSIGNMENT_OPERATION   = 1,
+        ASSIGNMENT_MAINTENANCE = 2,
+        ASSIGNMENT_REFUELLING  = 3,
+        ASSIGNMENT_PARKING     = 4,
+        ASSIGNMENT_STOP        = 5
+    };
+
+    enum EquipmentCategories
+    {
+        EQUIPMENT_UNKNOWN         = 0,   //...Detection of type could not be determined
+        EQUIPMENT_PERSONNEL       = 1,   //...Personnel (while standing or walking), 5th to 95th percentile, as specified in ISO-7250
+        EQUIPMENT_SERVICE_VEHICLE = 2,   //...<<Perception use only>> Road graders, bull dozers, water trucks, excavators, light vehicle
+        EQUIPMENT_HAUL_TRUCK      = 3,   //...<<Perception use only>> Mining haul truck
+        EQUIPMENT_BERM            = 4,   //...Mining road berm
+        EQUIPMENT_STATIC          = 5,   //...Object not moving and greater than 1m^2 frontal area
+        EQUIPMENT_MARKER          = 6,   //...Size and type to be agreed upon by LME and RPK supplier
+        EQUIPMENT_LIGHT_VEHICLE   = 7,   //...Light vehicle (a car, a pick-up truck
+        EQUIPMENT_OHT             = 8,   //...Off Highway Truck
+        EQUIPMENT_AOHT            = 9,   //...Autonomous Off Highway Truck
+        EQUIPMENT_EXCAVATOR       = 10,  //...Excavator
+        EQUIPMENT_GRADER          = 11,  //...Grader
+        EQUIPMENT_DOZER           = 12,  //...Bull-dozer
+        EQUIPMENT_WATER           = 13,  //...Water truck
+        EQUIPMENT_SHOVEL          = 14,  //...Shovel
+        EQUIPMENT_DRILL           = 15,  //...Drill
+        EQUIPMENT_ALV             = 16,  //...Autonomous light vehicle
+        EQUIPMENT_WHEEL_LOADER    = 17,  //...Wheel-Loader
+        EQUIPMENT_ROAD_TRAIN      = 18   //...Road Train  
+    };
+
+    enum EquipmentState
+    {
+        EQUIPMENT_STATE_UNKNOWN                    = 0,
+        EQUIPMENT_STATE_MANUAL                     = 1,
+        EQUIPMENT_STATE_AUTO_WAITING_ASSIGNMENT    = 2,
+        EQUIPMENT_STATE_AUTO_MONITORING_ASSIGNMENT = 3,
+        EQUIPMENT_STATE_AUTO_WAITING_AUTHORIZATION = 4,
+        EQUIPMENT_STATE_ERROR                      = 5,
+        EQUIPMENT_STATE_REMOTE_STOP                = 6
+    };
+
+    enum EventLevels
+    {
+        EVENT_UNKNOWN  = 0,
+        EVENT_DEBUG    = 1,
+        EVENT_INFO     = 2,
+        EVENT_WARNING  = 3,
+        EVENT_ERROR    = 4,
+        EVENT_CRITICAL = 5
+    };
+
+    enum LocationTypes
+    {
+        LOCATION_INVALID      = 0,
+        LOCATION_BLAST        = 1,
+        LOCATION_CRUSHER      = 2,
+        LOCATION_STOCK_PILE   = 3,
+        LOCATION_DUMP         = 4,
+        LOCATION_WASTE_PILE   = 5,
+        LOCATION_FUEL_STATION = 6,
+        LOCATION_TIE_DOWN     = 7,
+        LOCATION_WORKSHOP     = 8,
+        LOCATION_CALL_POINT   = 9,
+        LOCATION_REGION       = 10,
+        LOCATION              = 11
+    };
+
+    enum StatesFms
+    {
+        STATE_FMS_UNKNOWN      = 0,
+        STATE_FMS_MOVING_EMPTY = 1,
+        STATE_FMS_TRAVELING    = 2,
+        STATE_FMS_WAITING      = 3,
+        STATE_FMS_SPOTTING     = 4,
+        STATE_FMS_LOADING      = 5,
+        STATE_FMS_HAULING      = 6,
+        STATE_FMS_QUEUED       = 7,
+        STATE_FMS_BACKING      = 8,
+        STATE_FMS_TIPPING      = 9,
+        STATE_FMS_MOVING_FULL  = 10,
+        STATE_FMS_REFUELING    = 11,
+        STATE_FMS_MAINTENANCE  = 12,
+        STATE_FMS_PARKED       = 13,
+        STATE_FMS_BLOCKED      = 14,
+        STATE_FMS_IDLE         = 15,
+        STATE_FMS_REMOTE_STOP  = 16,
+        STATE_FMS_INACTIVE     = 17,
+        STATE_FMS_EMPTY        = 18,
+        STATE_FMS_LOADED       = 19
+    };
+
+    enum SpottingStrategy
+    {
+        SPOTTING_UNKNOWN          = 0,
+        SPOTTING_NONE             = 1,
+        SPOTTING_FIXED            = 2,
+        SPOTTING_FALLBACK         = 3,
+        SPOTTING_DYNAMIC          = 4,
+        SPOTTING_FALLBACK_DYNAMIC = 5
+    };
+
+    enum SpotManeuverStrategy
+    {
+        SPOTSTRATEGY_NONE             = 0,
+        SPOTSTRATEGY_REVERSE_MANEUVER = 1,
+        SPOTSTRATEGY_FORWARD_MANEUVER = 2
+    };
+
+    enum WorkflowFinishedEventSource
+    {
+        WORKFLOW_UNKNOWN                    = 0,
+        WORKFLOW_MANEUVER_FINISHED          = 1,
+        WORKFLOW_TIMEOUT                    = 2,
+        WORKFLOW_HOIST_FINISHED             = 3,
+        SPOTTING_SHOVEL_NOTIFICATION_SERVER = 4,
+        SPOTTING_SHOVEL_NOTIFICATION_P2P    = 5,
+        SPOTTING_SHOVEL_NOTIFICATION        = 6
+    };
+
+    enum Direction
+    {
+        DIRECTION_UNKNOWN = 0,
+        DIRECTION_FORWARD = 1,
+        DIRECTION_REVERSE = 2,
+        DIRECTION_NEUTRAL = 3,
+        DIRECTION_ERROR   = 4
+    };
+
+    enum OperatorLog
+    {
+        OPERATOR_LOG_UNKNOWN       = 0,
+        OPERATOR_LOG_IN            = 1,
+        OPERATOR_LOG_IN_COMPLETED  = 2,
+        OPERATOR_LOG_OUT           = 3,
+        OPERATOR_LOG_OUT_COMPLETED = 4
+    };
+
+    enum AuthorizationStatus
+    {
+        AUTHORIZATION_UNKNOWN        = 0,
+        AUTHORIZATION_AUTHORIZED     = 1,
+        AUTHORIZATION_NOT_AUTHORIZED = 2
+    };
+
+    enum ZoneStrategy
+    {
+        STRATEGY_UNKNOWN               = 0,
+        STRATEGY_JUST_ONE_CAN_MANEUVER = 1,
+        STRATEGY_JUST_ONE_ALLOWED      = 2
+    };
+
+    enum SpotType
+    {
+        SPOT_INVALID = 0,
+        SPOT_PADDOCK = 1,
+        SPOT_EDGE    = 2,
+        SPOT_PARKING = 3
+    };
+
+	/*************************************************************************/
+	/* The Version Data Structure specifies the version of a given     		 */
+	/* System/SubSystem/Module It is represented as:                         */
+	/* {build}.{year}.{month}.{day}.{debug}             					 */
+	/*************************************************************************/
+	struct Version {
+		unsigned short build;	//...Reflects a build version
+		unsigned short year;	//...Reflects the year that the version was built
+		unsigned short month;	//...Reflects the month that the version was built
+		unsigned short day;		//...Reflects the day that the version was built
+		unsigned short debug;	//...Reflects fixes. A debug of 0 is release ready.
+	};//@top-level false        
+
+    struct Stamp
+    {
+        long sec;
+        long nsec;
+    };  //@top-level false
+
+    struct Header
+    {
+        Stamp stamp;
+        long  seq;
+    };  //@top-level false
+
+    struct GeoPosition
+    {
+        double latitude;
+        double longitude;
+        double altitude;
+    };  //@top-level false
+
+    struct GeoOrientation
+    {
+        double roll;
+        double pitch;
+        double yaw;
+    };  //@top-level false
+
+    struct GeoPose
+    {
+        GeoPosition    position;
+        GeoOrientation orientation;
+    };  //@top-level false
+
+    struct GeoTwist   // contains linear and angular speeds
+    {
+        double linear;   // GPS linear speed
+        double angular;  // GPS angular speed (0 if not available)
+    };
+
+    struct GeoStatus
+    {
+        double  rmsError;               // RMS error of north and east
+        boolean localizationValidity;   // Indicates whether the current localization provided to the Autonomy Kit is sufficient for us
+        short   satellites;             // Number of tracked satellites
+    }; //@top-level false
+
+    struct Vector
+    {
+        double x;
+        double y;
+        double z;
+    };  //@top-level false
+
+    struct Boundary
+    {
+        sequence<GeoPosition> vertices;
+    };  //@top-level false
+
+    struct AssignmentSettings
+    {
+        SpottingStrategy            spottingStrategy;
+        WorkflowFinishedEventSource workflowFinishedSource;
+        long                        workflowFinishedTimeout;
+        boolean                     flipToManual;
+        Version                     mapVersion;
+    };  //@top-level false
+
+    struct Spot
+    {
+        unsigned long groupId;
+        unsigned long spotId;
+        boolean       hasSpot;
+        SpotManeuverStrategy  maneuverStrategy;
+        GeoPose       spot;
+        SpotType      spotType;
+    };  //@top-level false
+
+    struct PointCode
+    {
+        unsigned long code;
+        unsigned long exclusionId;
+        GeoPosition   point;
+    };  //@top-level false
+
+    struct Segment
+    {
+        unsigned long       id;
+        sequence<PointCode> points;
+        double              speedLimit;
+        double              width;
+        double              slope;
+        boolean             isTwoWay;
+        boolean             acceptOvertaking;
+        GeoPosition         circleCenter;
+        double              radius;
+        unsigned long       intersectionId;
+        double              speedRecommended;
+    };  //@top-level false
+
+    struct Location
+    {
+        unsigned long id;
+
+        string<50>    name;
+        LocationTypes type;
+        Boundary      boundary;
+        double        speedLimit;
+        ZoneStrategy  zoneStrategy;
+        Segment       exitSegment;
+        Spot          spot;
+
+    };  //@top-level false
+
+    struct MetaSegment
+    {
+        unsigned long startCode;
+        unsigned long endCode;
+    };  //@top-level false
+
+    struct Dump
+    {
+        long   blastId;
+        long   dumpId;
+        long   shovelId;
+        double payload;
+        long   materialId;
+    };  //@top-level false
+
+    //////////////////////////// Map Gateway ////////////////////////////////////
+
+    enum IntersectionStrategy
+    {
+        INTERSECTIONSTRATEGY_INVALID     = 0,
+        INTERSECTIONSTRATEGY_FULL_LOCK   = 1,
+        INTERSECTIONSTRATEGY_SAFETY_LOCK = 2,
+        INTERSECTIONSTRATEGY_CONVOY_LOCK = 3,
+        INTERSECTIONSTRATEGY_MANUAL_LOCK = 4
+    };
+
+    enum VehicleProfile
+    {
+        VEHICLEPROFILE_INVALID       = 0,
+        VEHICLEPROFILE_NONE          = 1,
+        VEHICLEPROFILE_LIGHT_VEHICLE = 2,
+        VEHICLEPROFILE_HEAVY_VEHICLE = 3
+    };
+
+    enum SpotWorkflow
+    {
+        SPOTTYPE_INVALID = 0,
+        SPOTTYPE_PADDOCK = 1,
+        SPOTTYPE_EDGE    = 2,
+        SPOTTYPE_PARKING = 3
+    };
+
+    struct MapFeature
+    {
+        string<25> key;
+        string<50> value;
+    };
+
+    struct MapMetaSegment
+    {
+        unsigned long code;
+        string<50>    name;
+    };  //@top-level false
+
+    struct MapSegment
+    {
+        long           id;
+        MapMetaSegment segmentStart;
+        MapMetaSegment segmentEnd;
+        boolean        twoWay;
+        double         width;
+        double         slope;
+        double         speed;
+        sequence<GeoPosition, 4> bezier;
+        sequence<MapFeature, 20> features;
+    };  //@top-level false
+
+    struct MapIntersection
+    {
+        long                 id;
+        string<50>           name;
+        IntersectionStrategy strategy;
+        sequence<MapSegment> segments;
+    };  //@top-level false
+
+    struct MapSpot
+    {
+        long         id;
+        long         order;
+        string<50>   name;        
+        GeoPose      geoPose;
+    };  //@top-level false
+
+    struct MapWorkplaceSpotGroup
+    {
+        long              id;
+        string<50>        name;
+        long              order;
+        VehicleProfile       vehicleProfile;
+        SpotWorkflow         spotWorkflow;
+        SpotManeuverStrategy maneuverStrategy;
+        sequence<MapSpot> spots;
+    };  //@top-level false
+
+    struct MapZone
+    {
+        long        code;
+        string<100> name;
+        GeoPosition geoPosition;
+    };
+
+    struct MapWorkplace
+    {
+        long          id;
+        string<50>    name;
+        LocationTypes type;
+        ZoneStrategy  strategy;
+        Boundary      boundary;
+        sequence<MapZone, 2>                zones;
+        sequence<MapWorkplaceSpotGroup, 10> spotGroups;
+        sequence<MapFeature, 20>            features;
+    };  //@top-level false
+
+    struct MapEquipmentPose
+    {
+        long                equipmentId;
+        string<20>          machineTag;
+        EquipmentCategories type;
+        GeoPose             geoPose;
+    };  //@top-level false
+
+    struct MapProject
+    {
+        long       id;
+        string<50> projectName;
+        string<50> versionId;
+        string<50> userId;
+        sequence<MapEquipmentPose, 30> trucks;
+        sequence<MapSegment>           segments;
+        sequence<MapWorkplace>         workplaces;
+        sequence<MapIntersection>      intersections;
+    };  //@top-level false
+
+    struct MapMetaProject
+    {
+        long       id;
+        string<50> projectName;
+        string<50> versionId;
+        string<50> userId;
+    };  //@top-level false
+
+    struct MapSite
+    {
+        long        id;
+        string<50>  siteName;
+        string<100> description;
+        GeoPosition geoPosition;
+        MapProject  activeProject;
+    };  //@top-level false
+
+    struct MapMetaSite
+    {
+        long                     id;
+        string<50>               siteName;
+        string<100>              description;
+        GeoPosition              geoPosition;
+        MapMetaProject           activeProject;
+        sequence<MapMetaProject> allProjects;
+
+    };  //@top-level false
+
+    struct AuthorizationCodeMeta
+    {
+        long netId;
+        long authorizationCode;
+    };  //@top-level false
+
+    struct SpotUsage
+    {
+        long       code;
+        string<50> name;
+    };  //@top-level false
+
+    struct AuthorizationZone
+    {
+        long                   authorizationZoneId;
+        long                   equipmentLock;
+        AuthorizationCodeMeta  authorizationCode;
+        boolean                isBlocked;
+        sequence<SpotUsage, 2> zones;
+
+    };  //@top-level false
+
+    struct SegmentUsage
+    {
+        SpotUsage                       segmentStart;
+        SpotUsage                       segmentEnd;
+        sequence<AuthorizationCodeMeta> authorizationCode;
+        sequence<long>                  usageLock;
+        sequence<long>                  safetyLock;
+    };  //@top-level false
+
+    struct IntersectionZone
+    {
+        long                            intersectionId;
+        sequence<long>                  equipmentsLock;
+        sequence<AuthorizationCodeMeta> authorizationCode;
+        sequence<SegmentUsage>          segmentList;
+    };  //@top-level false
+
+    struct SpotsUsage //
+    {
+        long		spotTableId; 
+        string<50>	spotName;
+        long		equipmentLock;
+        long		authorizationCode;
+        long		sequenceOrder;
+        boolean		occupied;
+        boolean		assigned;
+        boolean		refreshable;
+        GeoPose		pose;
+    };  //@top-level false
+
+
+    enum AssignmentStatus
+    {
+        ASSIGNMENT_STATUS_INVALID          = 0,  // Status is unknown or interteminate
+        ASSIGNMENT_STATUS_RECEIVED         = 1,  // Assignment was received on MME
+        ASSIGNMENT_STATUS_ACCEPTED         = 2,  // Assignment accepted by autonomy kit
+        ASSIGNMENT_STATUS_RUNNING          = 3,  // Assignment running on autonomy kit
+        ASSIGNMENT_STATUS_COMPLETED        = 4,  // Assignment completed on autonomy kit
+        ASSIGNMENT_STATUS_PAUSED           = 5,  // Assignment paused by autonomy kit or MME
+        ASSIGNMENT_STATUS_REJECTED         = 6,  // Assignment rejected by autonomy kit or MME
+        ASSIGNMENT_STATUS_FAILED           = 7,  // Assignment execution failed
+        ASSIGNMENT_STATUS_ABORTED          = 8   // Assignment aborted by MME
+    };
+
+    enum AlarmSeverityLevel
+    {
+        ALARM_SEVERITY_INVALID = 0,
+        ALARM_SEVERITY_INFO = 1,
+        ALARM_SEVERITY_WARNING = 2,
+        ALARM_SEVERITY_ERROR = 3,
+        ALARM_SEVERITY_CRITICAL = 4
+    };
+
+    struct Alarm
+    {
+        AlarmSeverityLevel severity;   // Alarm severity level
+        string<10> code;               // Alarm code, same used by Event
+        string<50> description;        // Alarm string description, same used by Event
+    };  //@top-level false
+
+
+    struct WheelTelemetry
+    {
+        double tirePressure;          // Tire pressure in PSI
+        double tireTemperature;       // Tire temperature in C
+        double brakeTemperature;      // Brake temperature in C
+    }; //@top-level false
+
+    enum DumpBodyStatus
+    {
+        DUMP_BODY_STATUS_UNKNOWN = 0,
+        DUMP_BODY_STATUS_DOWN = 1,
+        DUMP_BODY_STATUS_UP = 2,
+        DUMP_BODY_STATUS_MOVING = 3,
+        DUMP_BODY_STATUS_ERROR = 4
+    };
+
+    struct AutonomyKitTelemetry
+    {
+        double             odometer;   // Distance traveled by the vehicle since manufacturing or engine overhaul (km)
+        double             fuelLevel;  // Percentage full (%)
+        unsigned long      hourMeter;  // Active hours of the equipment (h)
+        double             batteryVoltage;  // Current battery voltage (V)
+        double             vehicleWeight;   // Vehicle weight (kg)
+        DumpBodyStatus     dumpBodyStatus;  // Dump body status
+
+        // Wheel telemetry information
+        WheelTelemetry leftFrontWheel;
+        WheelTelemetry rightFrontWheel;
+        WheelTelemetry leftRearWheel;
+        WheelTelemetry rightRearWheel;
+    }; //@top-level false
+
+    struct ComputingUnitTelemetry
+    {
+        double wifiStrength;   // Current wifiStrength. 0 if not connected. (db)
+        double cpuUsage;       // CoreHP percentage of CPU usage (%)
+        double memoryUsage;    // CoreHP percentage of memory usaeg (%)
+    }; //@top-level false
+    
+    struct LocationInfo
+    {
+        long currentRoadId;
+        long locationId;
+        long lastLocationId;
+        long nextLocationId;
+    }; //@top-level false
+
+    enum ServerStatus
+    {
+        SERVER_STATUS_INVALID          = 0,  // Status is unknown or interteminate
+        SERVER_STATUS_INITIALIZING     = 1,  // Server is initializing
+        SERVER_STATUS_RUNNING          = 2,  // Server is running properly
+        SERVER_STATUS_CLOSING          = 3,  // Server is closing the application
+        SERVER_STATUS_ERROR            = 4,  // Server is in a error state
+        SERVER_STATUS_FMS_DISCONNECTED = 5  // FNS is not connected to server
+    };
+
+    const uint8 MAX_ERROR_CODE_SIZE = 10;             // Maximum size for the error code string
+    const uint8 MAX_ERROR_LIST_SIZE = 10;             // Maximum size for the error list
+    const uint8 MAX_INFO_SIZE = 100;                  // Maximum size of info string
+
+    /************************************************************************************
+    Lists the possible error levels
+    ************************************************************************************/
+    enum ErrorLevel
+    {
+        FAULT_RESPONSE_0 = 0,   // Normal operation
+        FAULT_RESPONSE_1 = 1,   // CCS Alert
+        FAULT_RESPONSE_2 = 2,   // Reduce speed limit
+        FAULT_RESPONSE_3 = 3,   // Apply brake
+        FAULT_RESPONSE_4 = 4    // Engage service brake
+
+    };
+
+    /************************************************************************************
+    Declares error states, code, and message
+    ************************************************************************************/
+    struct Error
+    {
+        ErrorLevel level;                         // Error level
+        string<MAX_ERROR_CODE_SIZE> error_code;   // Error code, identified on documentation
+        string<MAX_INFO_SIZE>       message;      // Descriptive message regarding the error
+    }; //@top-level false
+
+    enum AutonomousDriverState
+    {
+        AUTONOMOUS_DRIVER_STATE_UNKNOWN = 0,             // Unknown autonomous driver state
+        AUTONOMOUS_DRIVER_STATE_MANUAL_CONTROL = 1,      // Autonomous Driver in manual state, gear drive human driver
+        AUTONOMOUS_DRIVER_STATE_MANUAL_READY = 2,        // Autonomous Driver in manual ready state, gear neutral and stopped
+        AUTONOMOUS_DRIVER_STATE_AUTONOMOUS_CONTROL = 3,  // Autonomous Driver is currently autonomous, in a mission
+        AUTONOMOUS_DRIVER_STATE_AUTONOMOUS_READY = 4,    // Autonomous Driver is currently autonomous ready, waiting for mission
+        AUTONOMOUS_DRIVER_STATE_TELEOPERATED = 5,        // Autonomous Driver is teleoperated
+        AUTONOMOUS_DRIVER_STATE_DRIVER_OVERRIDE = 6,     // An human operator took control of the vehicle
+        AUTONOMOUS_DRIVER_STATE_COMPONENT_ERROR = 7,     // Autonomous Driver is in component error mode
+        AUTONOMOUS_DRIVER_STATE_TEMPORARY_ERROR = 8,     // Autonomous Driver is in temporary error mode
+        AUTONOMOUS_DRIVER_STATE_PA_TAG_DETECTED = 9,     // Personal Alert tag detected
+        AUTONOMOUS_DRIVER_STATE_TRANSITIONING = 10       // Autonomous Driver is currently transitioning from manual to autonomous
+    };   
+};
+
+#endif

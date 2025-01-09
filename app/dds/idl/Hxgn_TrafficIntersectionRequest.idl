@@ -1,0 +1,14 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_TrafficIntersectionRequest
+    {
+        long                           equipmentId;  //@key
+        long                           requestId;
+        long                           intersectionId;
+        sequence<Structs::MetaSegment> metaSegments;     //@resolve-name false
+        Structs::GeoPosition           currentPosition;  //@resolve-name false
+        long                           ETA;              // Estimate Time Arrival
+    };
+};

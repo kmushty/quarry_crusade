@@ -1,0 +1,61 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_RealTimeInformation
+    {
+        long               equipmentId;  //@key
+        string<25>         equipmentTag;
+        Structs::Header    header;       //@resolve-name false
+        Structs::EquipmentCategories equipmentType;
+        Structs::EquipmentState equipmentState;
+        Structs::GeoPose   geoPose;  //@resolve-name false
+        Structs::AutonomousDriverState autonomousDriverState;
+        sequence<Structs::Error, Structs::MAX_ERROR_LIST_SIZE> errorList;  // List of errors currently active, ranked by severity
+        double             odometer;
+        long               currentRoadId;
+        long               LocationId;
+        long               LastLocationId;
+        long               NextLocationId;
+        Structs::Direction direction;
+        double             speed;
+        double             speedError;
+        double             northError;
+        double             eastError;
+        double             elevationError;
+        double             rollError;
+        double             pitchError;
+        double             headingError;
+        double             semiMajorError;
+        double             semiMinorError;
+        double             orientationElipseError;
+        double             longitudinalAccel;
+        double             transverseAccel;
+        double             downAccel;
+        double             rollRate;
+        double             fuelLevel;
+        unsigned long      hourMeter;
+        double             pitchRate;
+        double             yawRate;
+        unsigned short     trackedSatellites;
+        unsigned short     posType;
+        double             pdop;
+        double             diffAge;
+        double             wiFiStrength;
+        double             wiFinoiseRatio;
+        double             wiFiTxRetries;
+        unsigned short     wiFiChannel;
+        double             wiFiBitRate;
+        double             vInVoltage;
+        double             vInCurrent;
+        boolean            localizationValidity;
+        unsigned short     solutionSattelites;
+        double             storageSize;
+        double             hardwareTemperature;
+        double             cpuTemperature;
+        double             puTemperature;
+        double             cpuUsage;
+        double             memoryUsage;
+        string<25>         apMacAddress;
+    };
+};

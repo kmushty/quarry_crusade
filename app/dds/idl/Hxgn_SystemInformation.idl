@@ -1,0 +1,29 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_SystemInformation
+    {
+        Structs::Header              header;       //@resolve-name false
+        long                         equipmentId;  //@key
+        string<255>                  version;
+        string<32>                   SSIDPrimary;
+        string<25>                   wiFiIpPrimary;
+        string<25>                   wiFiSubMaskPrimary;
+        string<25>                   wiFiMacAddressPrimary;
+        string<32>                   SSIDSecondary;
+        string<25>                   wiFiIpSecondary;
+        string<25>                   wiFiSubMaskSecondary;
+        string<25>                   wiFiMacAddressSecondary;
+        string<25>                   eth0Ip;
+        string<25>                   eth0SubMask;
+        string<25>                   eth0MacAddress;
+        string<25>                   eth1Ip;
+        string<25>                   eth1SubMask;
+        string<25>                   eth1MacAddress;
+        string<25>                   equipmentTag;
+        Structs::EquipmentCategories equipmentType;
+        string<255>                  versionOEM;
+        string<255>                  serialNumber;
+    };
+};

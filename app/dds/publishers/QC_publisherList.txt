@@ -1,0 +1,9 @@
+Hxgn_Assignment.idl
+Hxgn_AssignmentActionRequest.idl
+Hxgn_LoadingFinished.idl
+Hxgn_MapSurveyUpdate.idl
+Hxgn_RemoteStop.idl
+Hxgn_StateChangeRequestEvent.idl
+Hxgn_TrafficExclusionZoneResponse.idl
+Hxgn_TrafficIntersectionResponse.idl
+

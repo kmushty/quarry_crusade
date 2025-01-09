@@ -1,0 +1,14 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_TrafficSpotRelease
+    {
+        long               		equipmentId;  //@key
+		long               		requestId;  
+		long               		spotId; 
+		long               		groupSpotId;
+		Structs::SpotType		spotType;
+		Structs::GeoPosition   	currentPosition;  //@resolve-name false                                                                                                      
+    };
+};

@@ -1,0 +1,20 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+	enum AssignmentActionTypes
+	{
+		ASSIGNMENT_ACTION_UNDEFINED = 0,
+		ASSIGNMENT_ACTION_PAUSE = 1,
+		ASSIGNMENT_ACTION_RESUME = 2,
+		ASSIGNMENT_ACTION_ABORT = 3
+	};
+
+	struct Hxgn_AssignmentActionRequest
+	{
+		Structs::Header			header;
+		long					assignmentActionId;
+		long					equipmentId; //@key
+		AssignmentActionTypes	action;
+	};
+};

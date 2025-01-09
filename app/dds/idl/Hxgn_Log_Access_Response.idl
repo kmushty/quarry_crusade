@@ -1,0 +1,12 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_LogAccessResponse
+    {
+        Structs::Header      header;
+        long                 equipmentId;  //@key
+        long                 operatorId;
+        Structs::OperatorLog result;
+    };
+};

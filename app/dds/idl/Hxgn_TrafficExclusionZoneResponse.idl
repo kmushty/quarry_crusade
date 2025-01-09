@@ -1,0 +1,15 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_TrafficExclusionZoneResponse
+    {
+        long                         equipmentId;  //@key
+        long                         requestId;
+        long                         exclusionZoneId;
+        long                         zoneCode;
+        long                         authorizationCode;
+        Structs::AuthorizationStatus authorizationStatus;
+        string<50>                   authorizationDateTime;
+    };
+};

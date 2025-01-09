@@ -1,0 +1,15 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_TrafficIntersectionResponse
+    {
+        long                           equipmentId;  //@key
+        long                           requestId;
+        long                           intersectionId;
+        sequence<Structs::MetaSegment> metaSegments;  //@resolve-name false
+        long                           authorizationCode;
+        Structs::AuthorizationStatus   authorizationStatus;
+        string<50>                     authorizationDateTime;
+    };
+};

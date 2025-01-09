@@ -1,0 +1,17 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    enum RemoteStopStatus
+    {
+        REMOTE_STOP_UNKNOWN     = 0,
+        REMOTE_STOP_ACTIVATED   = 1,
+        REMOTE_STOP_DEACTIVATED = 2
+    };
+    struct Hxgn_RemoteStop
+    {
+        Structs::Header  header;
+        long             equipmentId;  //@key
+        RemoteStopStatus status;
+    };
+};

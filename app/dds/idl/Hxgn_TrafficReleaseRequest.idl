@@ -1,0 +1,12 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_TrafficReleaseRequest
+    {
+        long                 equipmentId;  //@key
+        long                 requestId;
+        long                 authorizationCode;  // Code to be released
+        Structs::GeoPosition currentPosition;    //@resolve-name false
+    };
+};

@@ -1,0 +1,12 @@
+Hxgn_AssignmentActionResponse.idl
+Hxgn_AssignmentStatus.idl
+Hxgn_DumpInformation.idl
+Hxgn_Event.idl
+Hxgn_RealTimeInformation.idl
+Hxgn_StateChangeEvent.idl
+Hxgn_Structs.idl
+Hxgn_SystemInformation.idl
+Hxgn_TrafficExclusionZoneRequest.idl
+Hxgn_TrafficIntersectionRequest.idl
+Hxgn_TrafficReleaseRequest.idl
+Hxgn_TrafficSpotRelease.idl

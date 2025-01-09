@@ -1,0 +1,11 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_LoadingFinished
+    {
+        Structs::Header header;
+        long            equipmentId;  //@key
+        long            shovelId;
+    };
+};

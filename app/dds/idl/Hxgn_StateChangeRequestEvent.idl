@@ -1,0 +1,11 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_StateChangeRequestEvent
+    {
+        Structs::Header    header;
+        long               equipmentId;  //@key
+        Structs::StatesFms changeToState;
+    };
+};

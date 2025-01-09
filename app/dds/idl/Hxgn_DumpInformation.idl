@@ -1,0 +1,11 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_DumpInformation
+    {
+        Structs::Header header;       //@resolve-name false
+        long            equipmentId;  //@key
+        double          payload;
+    };
+};

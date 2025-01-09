@@ -1,0 +1,13 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_StateChangeEvent
+    {
+        Structs::Header      header;
+        long                 equipmentId;  //@key
+        Structs::StatesFms   state;
+        Structs::GeoPosition position;
+        double               distance;
+    };
+};

@@ -1,0 +1,202 @@
+- default_domain_id: 7
+- id_parameter:
+    equipmentId: "/matterhorn/equipment_id"
+
+- message: "Hxgn_Structs"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_Structs.idl"
+
+- message: "Hxgn_SystemInformation"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_SystemInformation.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "SystemInformation"
+  library: "MissionManager_QOS_Library"
+  profile: "Trigger"
+
+- message: "Hxgn_RealTimeInformation"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_RealTimeInformation.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "VehicleRealTime"
+  library: "MissionManager_QOS_Library"
+  profile: "Periodic"
+
+- message: "Hxgn_Assignment"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_Assignment.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "Assignment"
+  library: "MissionManager_QOS_Library"
+  profile: "LargeEvent"
+  filter:
+    - id: "equipmentId"
+  unbounded_support: true
+
+- message: "Hxgn_Event"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_Event.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "Events"
+  library: "MissionManager_QOS_Library"
+  profile: "Event"
+
+- message: "Hxgn_DumpInformation"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_DumpInformation.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "DumpInformation"
+  library: "MissionManager_QOS_Library"
+  profile: "Trigger"
+  filter:
+    - id: "equipmentId"
+
+- message: "Hxgn_RemoteStop"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_RemoteStop.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "RemoteStop"
+  library: "MissionManager_QOS_Library"
+  profile: "Trigger"
+  filter:
+    - id: "equipmentId"
+
+-  message: "Hxgn_LoadingFinished"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_LoadingFinished.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "LoadingFinished"
+   library: "MissionManager_QOS_Library"
+   profile: "Trigger"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_StateChangeEvent"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_StateChangeEvent.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "StateEvent"
+   library: "MissionManager_QOS_Library"
+   profile: "Event"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_StateChangeRequestEvent"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_StateChangeRequestEvent.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "StateRequestEvent"
+   library: "MissionManager_QOS_Library"
+   profile: "Event"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_TrafficExclusionZoneRequest"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_TrafficExclusionZoneRequest.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "TrafficExclusionZoneRequest"
+   library: "MissionManager_QOS_Library"
+   profile: "Periodic"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_TrafficExclusionZoneResponse"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_TrafficExclusionZoneResponse.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "TrafficExclusionZoneResponse"
+   library: "MissionManager_QOS_Library"
+   profile: "Periodic"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_TrafficIntersectionRequest"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_TrafficIntersectionRequest.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "TrafficIntersectionRequest"
+   library: "MissionManager_QOS_Library"
+   profile: "Periodic"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_TrafficIntersectionResponse"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_TrafficIntersectionResponse.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "TrafficIntersectionResponse"
+   library: "MissionManager_QOS_Library"
+   profile: "Periodic"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_TrafficReleaseRequest"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_TrafficReleaseRequest.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "TrafficReleaseRequest"
+   library: "MissionManager_QOS_Library"
+   profile: "Periodic"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_TrafficReleaseResponse"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_TrafficReleaseResponse.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "TrafficReleaseResponse"
+   library: "MissionManager_QOS_Library"
+   profile: "Periodic"
+   filter:
+     - id: "equipmentId"
+
+-  message: "Hxgn_TrafficSpotRelease"
+   package: "mms_dds_interface"
+   idl_file: "idl/Hxgn_TrafficSpotRelease.idl"
+   domain: "MATTERHORN_MMS_DOMAIN_ID"
+   topic: "TrafficSpotRelease"
+   library: "MissionManager_QOS_Library"
+   profile: "Periodic"
+   filter:
+     - id: "equipmentId"
+
+- message: "Hxgn_AssignmentStatus"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_AssignmentStatus.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "AssignmentStatus"
+  library: "MissionManager_QOS_Library"
+  profile: "Event"
+  filter:
+    - id: "equipmentId"
+
+- message: "Hxgn_AssignmentActionRequest"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_AssignmentActionRequest.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "AssignmentActionRequest"
+  library: "MissionManager_QOS_Library"
+  profile: "Event"
+  filter:
+    - id: "equipmentId"
+
+- message: "Hxgn_AssignmentActionResponse"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_AssignmentActionResponse.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "AssignmentActionResponse"
+  library: "MissionManager_QOS_Library"
+  profile: "Event"
+  filter:
+    - id: "equipmentId"
+
+- message: "Hxgn_MapSurveyUpdate"
+  package: "mms_dds_interface"
+  idl_file: "idl/Hxgn_MapSurveyUpdate.idl"
+  domain: "MATTERHORN_MMS_DOMAIN_ID"
+  topic: "MapSurveyUpdate"
+  library: "MissionManager_QOS_Library"
+  profile: "FileTransfer"
+  unbounded_support: false
+  

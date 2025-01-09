@@ -1,0 +1,19 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    enum AssignmentActionResponseTypes
+    {
+        ASSIGNMENT_ACTION_RESPONSE_UNKNOWN = 0,
+        ASSIGNMENT_ACTION_RESPONSE_FAILED = 1,
+        ASSIGNMENT_ACTION_RESPONSE_ACCEPTED = 2
+    };
+
+    struct Hxgn_AssignmentActionResponse
+    {
+        long                                equipmentId;  //@key
+        long                                assignmentActionId;
+        AssignmentActionResponseTypes       actionResponse;
+        string<50>                          eventDate;
+    };
+};

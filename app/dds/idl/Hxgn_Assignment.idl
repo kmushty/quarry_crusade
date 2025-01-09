@@ -1,0 +1,24 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Route
+    {
+        Structs::Location          destination;
+        Structs::Location          origin;
+        sequence<Structs::Segment> segments;
+
+    };  //@top-level false
+
+    struct Hxgn_Assignment
+    {
+        Structs::Header             header;
+        long                        equipmentId;  //@key
+        long                        assignmentId;
+        Structs::AssignmentTypes    type;
+        boolean                     hasShovelId;
+        long                        shovelId;
+        Route                       locationRoute;
+        Structs::AssignmentSettings assignmentSettings;
+    };
+};

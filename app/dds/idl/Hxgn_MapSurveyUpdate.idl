@@ -1,0 +1,15 @@
+#include "Hxgn_Structs.idl"
+ 
+module dds
+{
+    const short SHA_LENGTH_RQS   = 40;
+    const int32 MAX_FILE_CONTENT = 536870912; // 2^29 = 512 MB
+ 
+    struct Hxgn_MapSurveyUpdate
+    {
+        Structs::Header                    header;                    //...Sequence and time information
+        sequence<char, MAX_FILE_CONTENT>   file_content;              //...This is the remote path to download the map update
+        char                               file_sha[SHA_LENGTH_RQS];  //...This is the SHA code to prove the file was downloaded correctly
+        Structs::Version                   version;                   //...Version information of the provided file
+    };
+};

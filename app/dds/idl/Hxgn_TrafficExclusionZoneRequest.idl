@@ -1,0 +1,15 @@
+#include "Hxgn_Structs.idl"
+
+module dds
+{
+    struct Hxgn_TrafficExclusionZoneRequest
+    {
+        long                 equipmentId;  //@key
+        long                 requestId;
+        long                 exclusionZoneId;
+        long                 zoneCode;
+        Structs::GeoPosition zonePosition;     //@resolve-name false
+        Structs::GeoPosition currentPosition;  //@resolve-name false
+        long                 ETA;              // Estimate Time Arrival
+    };
+};
