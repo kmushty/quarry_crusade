@@ -1,7 +1,7 @@
 """
 Base DDS Subscriber class.
 """
-
+import rti.connextdds as dds
 from typing import Any, Dict, Callable
 from .handler import DdsHandler
 import threading
@@ -17,6 +17,8 @@ class DdsSubscriber:
         self, 
         handler: DdsHandler,
         topic_name: str,
+        xml_path: str,
+        type_name: str,
         callback: Callable[[Dict[str, Any]], None]
     ):
         """
@@ -25,18 +27,55 @@ class DdsSubscriber:
         Args:
             handler: Initialized DDS handler
             topic_name: Name of the topic to subscribe to
+            xml_path: Path to the XML file containing the QoS configuration
+            type_name: Name of the data type
             callback: Function to call when data is received
         """
-        self.handler = handler
-        self.topic_name = topic_name
+        try:
+            self.qos_provider = dds.QosProvider(f"file://{xml_path}")
+            print(f"QoS provider initialized from {xml_path}")
+            # Get the dynamic type from XML
+            self.dynamic_type = self.qos_provider.type(type_name)
+        except Exception as e:
+            raise RuntimeError(f"Failed to load XML configuration or type: {str(e)}")
+        
+        # Create topic using dynamic type
+        self.topic = dds.Topic(
+            self.handler.participant,
+            topic_name,
+            self.dynamic_type,
+            self.qos_provider.topic_qos
+        )
+        
+        # Create reader using dynamic type
+        self.reader = dds.DataReader(
+            self.handler.participant.implicit_subscriber,
+            self.topic,
+            self.qos_provider.datareader_qos
+        )
         self.callback = callback
-        self.reader = self.handler.connector.get_input(topic_name)
         self.running = False
         self._read_thread = None
 
-    def start(self) -> None:
+        # Set up the status condition and waitset
+        self.status_condition = dds.StatusCondition(self.reader)
+        self.status_condition.enabled_statuses = dds.StatusMask.DATA_AVAILABLE
+        self.status_condition.set_handler(self._on_data_available)
+
+        self.waitset = dds.WaitSet()
+        self.waitset += self.status_condition
+
+    def _on_data_available(self, _):
         """
-        Start listening for data.
+        Handler for data available status.
+        """
+        self.reader.take()
+        for sample in self.reader.samples.valid_data_iter:
+            self.callback(sample.data)
+
+    def start(self):
+        """
+        Start the subscriber in a separate thread.
         """
         if not self.running:
             self.running = True
@@ -44,25 +83,20 @@ class DdsSubscriber:
             self._read_thread.daemon = True
             self._read_thread.start()
 
-    def stop(self) -> None:
+    def stop(self):
         """
-        Stop listening for data.
+        Stop the subscriber.
         """
         self.running = False
         if self._read_thread:
             self._read_thread.join(timeout=1.0)
 
-    def _read_loop(self) -> None:
+    def _read_loop(self):
         """
         Main loop for reading data.
         """
         while self.running:
             try:
-                self.reader.wait(timeout=1000)
-                self.reader.take()
-                for sample in self.reader.samples.valid_data_iter:
-                    data = sample.get_dictionary()
-                    self.callback(data)
-            except Exception as e:
-                print(f"Error reading from {self.topic_name}: {str(e)}")
-            time.sleep(0.1)
+                self.waitset.dispatch(dds.Duration(1))
+            except KeyboardInterrupt:
+                break

@@ -1,10 +1,12 @@
 import streamlit as st
 import folium
+from typing import Dict, Any
 from streamlit_folium import st_folium
 from app.database import create_route, get_active_routes
 from app.dds.base import get_qos_settings
 from app.dds.base.handler import DdsHandler
-from app.dds.subscribers.hxgn_event import HxgnEventSubscriber, HxgnEvent
+# from app.dds.publishers import DdsPublisher
+from app.dds.base.subscriber import DdsSubscriber
 import json
 import base64
 from pathlib import Path
@@ -70,40 +72,10 @@ def create_route_with_bezier(start_point, end_point, control_point):
     
     return curve_points
 
-def handle_hxgn_event(event: HxgnEvent) -> None:
+def handle_hxgn_event(event: Dict[str, Any]) -> None:
     """Callback for handling events"""
     # Receive Event data (print for now, TODO: update UI)
     print("equipment_id:", event['equipment_id'])
-
-def init_dds():
-    """Initialize DDS handler and subscribers"""
-     # Get absolute path to QOS file
-    xml_path = str(Path(__file__).parent.absolute() / "app" / "dds" / "idl" / "USER_QOS_PROFILES.xml")
-    
-    # Verify file exists
-    if not Path(xml_path).exists():
-        raise FileNotFoundError(f"QOS file not found at: {xml_path}")
-
-    handler = DdsHandler(
-        xml_path=xml_path,
-        config_name="QuarryCrusadeParticipants::HxgnEventParticipant",
-    )
-    
-    try:
-        handler.init_connector()
-        
-        # Initialize subscribers
-        hxgn_event_subscriber = HxgnEventSubscriber(
-            handler=handler,
-            callback=handle_hxgn_event
-        )
-        hxgn_event_subscriber.start()
-        
-        return handler, hxgn_event_subscriber
-        
-    except Exception as e:
-        st.error(f"Failed to initialize DDS: {str(e)}")
-        raise
 
 def main():
     # Set page to wide mode
@@ -115,15 +87,13 @@ def main():
 
     if 'dds_handler' not in st.session_state:
         try:
-            handler, hxgn_event_subscriber = init_dds()
-            # Store in session state to persist across page reruns
+            handler = DdsHandler(domain_id=7)
+            handler.init_participant()
             st.session_state.dds_handler = handler
-            st.session_state.hxgn_event_subscriber = hxgn_event_subscriber
+            print("DDS handler initialized")
             
             def cleanup():
-                st.session_state.event_subscriber.stop()
                 st.session_state.dds_handler.cleanup()
-                del st.session_state.event_subscriber
                 del st.session_state.dds_handler
 
             # Register cleanup
@@ -133,6 +103,15 @@ def main():
         except Exception:
             st.error("Failed to start DDS communication")
             return
+    
+    hxgn_event_subscriber = DdsSubscriber(
+        handler=handler,
+        topic_name="HxgnEvent",
+        xml_path="app/dds/generated/Hxgn_Event.xml",
+        type_name="HxgnEvent",
+        callback=handle_hxgn_event,
+    )
+    hxgn_event_subscriber.start()
     
     # Initialize the map using config values
     map = folium.Map(

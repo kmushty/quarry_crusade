@@ -2,57 +2,44 @@
 Base DDS Handler for initializing and managing DDS connections.
 """
 
-from rticonnextdds_connector import Connector
-from pathlib import Path
+import rti.connextdds as dds
 from typing import Optional
-
 
 class DdsHandler:
     """
     Base class for DDS communication handling.
-    Manages the lifecycle of the DDS connector.
+    Manages the lifecycle of the DDS domain participant.
     """
     
-    def __init__(
-        self, 
-        xml_path: str,
-        config_name: str,
-        participant_name: Optional[str] = None
-    ):
+    def __init__(self, domain_id: int):
         """
         Initialize DDS Handler.
         
         Args:
-            xml_path: Path to QoS XML file
-            config_name: QoS configuration name (e.g., "MyLibrary::MyProfile")
-            participant_name: Optional name for this participant
+            domain_id: The domain ID for the DDS participant.
         """
-        self.xml_path = xml_path
-        self.config_name = config_name
-        self.participant_name = participant_name or self.__class__.__name__
-        self.connector: Optional[Connector] = None
+        self.domain_id = domain_id
+        self.participant: Optional[dds.DomainParticipant] = None
 
-    def init_connector(self) -> None:
+    def init_participant(self) -> None:
         """
-        Initialize the DDS connector if not already initialized.
+        Initialize the DDS domain participant if not already initialized.
         """
-        if not self.connector:
+        if not self.participant:
             try:
-                self.connector = Connector(
-                    config_name=self.config_name,
-                    url=self.xml_path
-                )
+                print(f"Initializing DDS participant for domain {self.domain_id}")
+                self.participant = dds.DomainParticipant(self.domain_id)
             except Exception as e:
-                raise RuntimeError(f"Failed to initialize DDS connector: {str(e)}")
+                raise RuntimeError(f"Failed to initialize DDS participant: {str(e)}")
 
     def cleanup(self) -> None:
         """
         Clean up DDS.
         """
-        if self.connector:
+        if self.participant:
             try:
-                self.connector.close()
-                self.connector = None
+                self.participant.close()
+                self.participant = None
             except Exception as e:
                 print(f"Error during cleanup: {str(e)}")
 
@@ -60,7 +47,7 @@ class DdsHandler:
         """
         Context manager entry.
         """
-        self.init_connector()
+        self.init_participant()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):

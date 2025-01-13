@@ -4,6 +4,7 @@ Base DDS Publisher class.
 
 from typing import Any, Dict
 from .handler import DdsHandler
+import rti.connextdds as dds
 
 
 class DdsPublisher:
