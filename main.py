@@ -87,31 +87,38 @@ def main():
 
     if 'dds_handler' not in st.session_state:
         try:
-            handler = DdsHandler(domain_id=7)
+            print("First time initializing DDS handler")
+            handler = DdsHandler(
+                xml_path="app/dds/USER_QOS_PROFILES.xml",
+                participant_name="HxgnEventParticipantLibrary::HxgnEventParticipant"
+            )
             handler.init_participant()
-            st.session_state.dds_handler = handler
+            st.session_state['dds_handler'] = handler
             print("DDS handler initialized")
             
             def cleanup():
-                st.session_state.dds_handler.cleanup()
-                del st.session_state.dds_handler
+                print("Cleaning up DDS handler")
+                st.session_state['dds_handler'].cleanup()
+                del st.session_state['dds_handler']
 
             # Register cleanup
-            if st.runtime.exists():
-                st.runtime.add_cleanup(cleanup)
+            if 'on_close' not in st.session_state:
+                st.session_state['on_close'] = cleanup
+                print("Added cleanup to session state")
+
                 
         except Exception:
             st.error("Failed to start DDS communication")
             return
     
+    print("Initializing DDS subscriber")
     hxgn_event_subscriber = DdsSubscriber(
-        handler=handler,
-        topic_name="HxgnEvent",
-        xml_path="app/dds/generated/Hxgn_Event.xml",
-        type_name="HxgnEvent",
-        callback=handle_hxgn_event,
+        handler=st.session_state['dds_handler'],
+        subscriber_name="HxgnEventSubscriber::HxgnEventReader",
+        callback=handle_hxgn_event
     )
     hxgn_event_subscriber.start()
+    print("DDS subscriber initialized")
     
     # Initialize the map using config values
     map = folium.Map(
