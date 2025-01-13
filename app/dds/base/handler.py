@@ -2,7 +2,7 @@
 Base DDS Handler for initializing and managing DDS connections.
 """
 
-import rti.connextdds as dds
+import rticonnextdds_connector as dds
 from typing import Optional
 
 class DdsHandler:
@@ -11,26 +11,32 @@ class DdsHandler:
     Manages the lifecycle of the DDS domain participant.
     """
     
-    def __init__(self, domain_id: int):
+    def __init__(self, xml_path: str, participant_name: str):
         """
         Initialize DDS Handler.
         
         Args:
-            domain_id: The domain ID for the DDS participant.
+            xml_path: The path to the XML file containing the QoS configuration
+            participant_name: The name of the participant
         """
-        self.domain_id = domain_id
+        self.xml_path = xml_path
+        self.participant_name = participant_name
         self.participant: Optional[dds.DomainParticipant] = None
 
     def init_participant(self) -> None:
         """
-        Initialize the DDS domain participant if not already initialized.
+        Initialize the DDS connector if not already initialized.
         """
-        if not self.participant:
-            try:
-                print(f"Initializing DDS participant for domain {self.domain_id}")
-                self.participant = dds.DomainParticipant(self.domain_id)
-            except Exception as e:
-                raise RuntimeError(f"Failed to initialize DDS participant: {str(e)}")
+        try:
+            print("In Handler: Initializing DDS connector")
+            print(f"Initializing DDS connector with config {self.participant_name}")
+            self.connector = dds.Connector(
+                config_name=self.participant_name,
+                url=f"file://{self.xml_path}"
+            )
+        except Exception as e:
+            raise RuntimeError(f"Failed to initialize DDS connector: {str(e)}")
+
 
     def cleanup(self) -> None:
         """

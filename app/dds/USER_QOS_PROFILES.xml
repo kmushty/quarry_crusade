@@ -129,4 +129,34 @@
         </qos_profile>
 
     </qos_library>
+    
+    <!-- Type -->
+    <types>
+        <struct name="HxgnEventType" extensibility="extensible">
+            <member name="equipmentId" type="long"/>
+            <member name="assignmentId" type="long"/>
+        </struct>
+    </types>
+
+    <!-- Domain Library -->
+    <domain_library name="HxgnEventDomainLibrary">
+        <domain name="HxgnEventDomain" domain_id="7">
+            <register_type name="HxgnEventType" type_ref="HxgnEventType"/>
+            <topic name="HxgnEvent" register_type_ref="HxgnEventType"/>
+        </domain>
+    </domain_library>
+
+    <!-- Domain Participant Library -->
+    <domain_participant_library name="HxgnEventParticipantLibrary">
+        <domain_participant name="HxgnEventParticipant" domain_ref="HxgnEventDomainLibrary::HxgnEventDomain">
+             <!-- Publisher configuration -->
+            <publisher name="HxgnEventPublisher">
+		    <data_writer name="HxgnEventWriter" topic_ref="HxgnEvent"/>
+            </publisher>
+	    <!-- Subscriber configuration -->
+            <subscriber name="HxgnEventSubscriber">
+		    <data_reader name="HxgnEventReader" topic_ref="HxgnEvent"/>
+            </subscriber>
+        </domain_participant>
+    </domain_participant_library>
 </dds>

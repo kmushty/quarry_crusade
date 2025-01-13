@@ -1,11 +1,9 @@
 """
 Base DDS Publisher class.
 """
-
 from typing import Any, Dict
 from .handler import DdsHandler
-import rti.connextdds as dds
-
+import rticonnextdds_connector as rti
 
 class DdsPublisher:
     """
@@ -15,28 +13,43 @@ class DdsPublisher:
     def __init__(
         self, 
         handler: DdsHandler,
-        topic_name: str
+        publisher_name: str
     ):
         """
         Initialize the publisher.
         
         Args:
             handler: Initialized DDS handler
-            topic_name: Name of the topic to publish to
+            publisher_name: Name of the publisher configuration in XML
         """
+        if not handler.connector:
+            raise RuntimeError("DDS Handler not initialized")
+            
         self.handler = handler
-        self.topic_name = topic_name
-        self.writer = self.handler.connector.get_output(topic_name)
+        self.output = handler.connector.get_output(publisher_name)
 
-    def publish(self, data: Dict[str, Any]) -> None:
+    def write(self, data: Dict[str, Any]) -> None:
         """
-        Publish data to the topic.
+        Write data to DDS.
         
         Args:
-            data: Dictionary containing the data to publish
+            data: Dictionary containing the data to write
         """
         try:
-            self.writer.instance.set_dictionary(data)
-            self.writer.write()
+            # Set the instance data
+            for key, value in data.items():
+                self.output.instance.set_dictionary(data)
+            
+            # Write the instance
+            self.output.write()
         except Exception as e:
-            raise RuntimeError(f"Failed to publish to {self.topic_name}: {str(e)}")
+            print(f"Error writing data: {str(e)}")
+
+    def dispose(self) -> None:
+        """
+        Dispose of the publisher.
+        """
+        try:
+            self.output.dispose()
+        except Exception as e:
+            print(f"Error disposing publisher: {str(e)}")
